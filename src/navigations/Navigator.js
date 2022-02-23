@@ -15,7 +15,7 @@ import StackRestaurants from './stack/StackRestaurants';
 const nameIcons = {
     restaurants: "food-fork-drink",
     account: "account",
-    favorities: "hexagram",
+    favorities: "heart-outline",
     search: "magnify",
     topRestaurantes: "star-outline"
 }
@@ -44,10 +44,10 @@ export default function Router() {
                 })}
             >
                     <Tab.Screen name='restaurants' component={StackRestaurants} options={{ title: "Restaurantes", headerShown:false }} />
-                    <Tab.Screen name='account' component={StackAccount} options={{ title: " Mi cuenta", headerShown:false }} />
                     <Tab.Screen name='favorities' component={StackFavorities} options={{ title: "Favoritos", headerShown:false }} />
                     <Tab.Screen name='search' component={StackSearch} options={{ title: "Buscar", headerShown:false }} />
                     <Tab.Screen name='topRestaurantes' component={StackTopRestaurants} options={{ title: "Top", headerShown:false }} />
+                    <Tab.Screen name='account' component={StackAccount} options={{ title: " Mi cuenta", headerShown:false }} />
             </Tab.Navigator>
         </NavigationContainer>
 

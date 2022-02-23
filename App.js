@@ -1,6 +1,7 @@
 import Navigator from './src/navigations/Navigator'
 import {  View } from 'react-native';
 import { StyleSheet } from 'react-native-web';
+import appFirebase from './src/helpers/firebase';
 
 
 export default function App() {
