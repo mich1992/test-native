@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text } from 'react-native-web'
-import 'firebase';
+import * as firebase from "firebase"
 import UserGuest from './screenChilds/UserGuest'
 import UserLogged from './screenChilds/UserLogged'
 
