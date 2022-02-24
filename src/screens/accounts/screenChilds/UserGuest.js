@@ -1,13 +1,14 @@
 import React from 'react'
-import { View, Text } from 'react-native-web'
+import {StyleSheet, ScrollView, View, Text, Image } from 'react-native-web'
+import { Button} from 'react-native-elements'
 
-
+ 
 export default function UserGuest() {
     return (
-        <View>
+        <ScrollView centerContent={true}>
             <Text>
                 hello world UserGuest
             </Text>
-        </View>
+        </ScrollView>
     )
 }
