@@ -10,6 +10,7 @@ export default function Login() {
             </View>
             <View>
                 <Image
+                source={require("../../../../assets/react.png")}
                 />
             </View>
         </ScrollView>
