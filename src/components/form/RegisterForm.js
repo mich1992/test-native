@@ -2,37 +2,49 @@ import React, { useState } from 'react'
 import { Input, Button, Icon } from 'react-native-elements'
 import { View, StyleSheet, Text } from "react-native-web"
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import formSchema from '../../helpers/validators';
+import { getAuth, createUserWithEmailAndPassword, } from "firebase/auth";
+
 
 export default function RegisterForm() {
-  
+  const auth = getAuth();
+
   const [toggle, setToggle] = useState(false)
   const [toggleRepeat, setToggleRepeat] = useState(false)
-  const onSubmit = data => console.log(data);
-
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      email: '',
-      password: '',
-      repeatPassword: ""
-    }
+    defaultValues:{
+      email:"",
+      password:"",
+      repeatPassword:""
+    },
+    resolver: yupResolver(formSchema)
   });
-  console.log(errors.password);
+  const onSubmit = data => {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigation.navigate('accounts')
+        console.log(user)
+      })
+      .catch(() => {
+
+        alert("usuario ya esta en uso")
+      });
+
+  };
+ 
   return (
     <View style={style.container}>
       <View>
         <Controller
           control={control}
-          rules={{
-            required: true,
-            minLength: 10
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='Correo Electronico'
               containerStyle={style.input}
-              email={true}
               rightIcon={
-                <Icon
+                < Icon
                   type='material-community'
                   name='at'
                   iconStyle={style.icon}
@@ -45,17 +57,12 @@ export default function RegisterForm() {
           )}
           name="email"
         />
-        {errors.email && <Text>This is required.</Text>}
+        <Text>{errors.email?.message}</Text>
       </View>
       <View>
         <Controller
           control={control}
-          rules={{
-            minLength: 6,
-            required: true,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
-
             <Input
               placeholder='Contraseña'
               containerStyle={style.input}
@@ -76,16 +83,11 @@ export default function RegisterForm() {
           )}
           name="password"
         />
-        {errors.password && <Text>This is required.</Text>}
-
+        <Text>{errors.password?.message}</Text>
       </View>
       <View>
         <Controller
           control={control}
-          rules={{
-            required: true,
-            minLength: 6,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='Repetir Contraseña'
@@ -107,15 +109,15 @@ export default function RegisterForm() {
           )}
           name="repeatPassword"
         />
-        {errors.repeatPassword && <Text>This is required.</Text>}
+        <Text>{errors.repeatPassword?.message}</Text>
       </View>
       <Button
         title={"Registrarse"}
         containerStyle={style.btn}
-        onPress={() => { alert("registro exitoso") }}
         buttonStyle={style.btnStyle}
-        onPress={handleSubmit(onSubmit)}
-        sub
+        onPress={() => {
+          handleSubmit(onSubmit)
+        }}
       />
     </View>
   )

@@ -5,7 +5,9 @@ import RegisterForm from '../../../components/form/RegisterForm'
 
 
 export default function Register() {
-  
+
+    
+
     return (
         <KeyboardAwareScrollView>
             <Image
@@ -15,7 +17,7 @@ export default function Register() {
             />
             <View style={style.form}>
                 <RegisterForm/>
-                
+            
             </View>
         </KeyboardAwareScrollView>
     )
