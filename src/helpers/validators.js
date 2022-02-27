@@ -5,9 +5,8 @@ import { object } from 'yup';
 
 const formSchema = object({
     email: yup.string()
-        .email()
-        .min(10, "Min length 10 characters require")
-        .required("Email is required"),
+        .required("Email is required")
+        .email('Must be an Email'),
     password: yup.string()
         .required("Password is required")
         .min(6, "Password length should be at least 4 characters")

@@ -5,35 +5,32 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import formSchema from '../../helpers/validators';
 import { getAuth, createUserWithEmailAndPassword, } from "firebase/auth";
+import { useNavigation } from '@react-navigation/native'
 
 
 export default function RegisterForm() {
   const auth = getAuth();
-
+  const navigation = useNavigation()
   const [toggle, setToggle] = useState(false)
   const [toggleRepeat, setToggleRepeat] = useState(false)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues:{
-      email:"",
-      password:"",
+    defaultValues: {
+      email: "",
+      password: "",
       repeatPassword:""
     },
     resolver: yupResolver(formSchema)
   });
-  const onSubmit = data => {
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigation.navigate('accounts')
-        console.log(user)
-      })
-      .catch(() => {
+  const onSubmit = async data => {
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password)
+      navigation.navigate('userLogged')
+    } catch (error) {
+      console.log("Esta usuario ya esta en unso");
 
-        alert("usuario ya esta en uso")
-      });
-
+    }
   };
- 
+
   return (
     <View style={style.container}>
       <View>
@@ -115,9 +112,7 @@ export default function RegisterForm() {
         title={"Registrarse"}
         containerStyle={style.btn}
         buttonStyle={style.btnStyle}
-        onPress={() => {
-          handleSubmit(onSubmit)
-        }}
+        onPress={handleSubmit(onSubmit)}
       />
     </View>
   )
