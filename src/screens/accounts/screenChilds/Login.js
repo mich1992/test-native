@@ -2,13 +2,17 @@ import React from 'react'
 import { View, Text, ScrollView, Image, StyleSheet } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { useNavigation } from '@react-navigation/native'
+import LoginForm from '../../../components/form/LoginForm'
 
 export default function Login() {
     const navigation = useNavigation()
     const CreateAccount = () => {
         return (
             <Text style={style.textRegister}>Aun no tienes cuenta?
-                <Text style={style.btnRegister} onPress={() => { navigation.navigate('register') }}>Registrate</Text></Text>
+                <Text style={style.btnRegister} onPress={() => { navigation.navigate('register') }}>
+                    Registrate
+                </Text>
+            </Text>
         )
     }
 
@@ -22,9 +26,7 @@ export default function Login() {
                 />
             </View>
             <View style={style.viewContiner}>
-                <Text>
-                    <Text>Login Form </Text>
-                </Text>
+                <LoginForm />
                 <CreateAccount />
                 <Divider
                     style={style.divider}

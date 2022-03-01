@@ -3,9 +3,10 @@ import { Input, Button, Icon } from 'react-native-elements'
 import { View, StyleSheet, Text } from "react-native-web"
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import formSchema from '../../helpers/validators';
+import  { formRegisterSchema } from '../../helpers/validators';
 import { getAuth, createUserWithEmailAndPassword, } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native'
+import Loading from '../Loading'
 
 
 export default function RegisterForm() {
@@ -13,21 +14,26 @@ export default function RegisterForm() {
   const navigation = useNavigation()
   const [toggle, setToggle] = useState(false)
   const [toggleRepeat, setToggleRepeat] = useState(false)
+  const [loading, setLoading] = useState(false )
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: "",
       password: "",
       repeatPassword:""
     },
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(formRegisterSchema)
   });
   const onSubmit = async data => {
     try {
+      setLoading(true)
       await createUserWithEmailAndPassword(auth, data.email, data.password)
       navigation.navigate('userLogged')
     } catch (error) {
+      
+      setLoading(false)
       console.log("Esta usuario ya esta en unso");
-
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -114,6 +120,7 @@ export default function RegisterForm() {
         buttonStyle={style.btnStyle}
         onPress={handleSubmit(onSubmit)}
       />
+      <Loading text="Creando cuenta" Isvisibe={loading}/>
     </View>
   )
 }

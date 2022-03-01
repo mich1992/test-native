@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { object } from 'yup';
 
 
-const formSchema = object({
+ export const formRegisterSchema = object({
     email: yup.string()
         .required("Email is required")
         .email('Must be an Email'),
@@ -18,4 +18,17 @@ const formSchema = object({
         .oneOf([yup.ref("password")], "Passwords do not match")
 })
 
-export default formSchema;
+export const formLoginSchema = object({
+    email: yup.string()
+        .required("Email is required")
+        .email('Must be an Email'),
+    password: yup.string()
+        .required("Password is required")
+        .min(6, "Password length should be at least 4 characters")
+   
+})
+
+export default  {
+    formRegisterSchema,
+    formLoginSchema
+} 

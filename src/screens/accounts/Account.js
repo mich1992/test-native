@@ -10,7 +10,6 @@ export default function Account() {
     
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            console.log(user)
             !user ? setLogin(false) : setLogin(true)
             
         });
